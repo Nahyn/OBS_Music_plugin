@@ -21,7 +21,9 @@ body:not(.parameters_hidden) #control_container {
 }
 
 .hidden,
-.parameters_hidden #parameter_container {
+.parameters_hidden #parameter_container,
+.music_playing #play_button,
+.music_paused #pause_button {
 	display: none
 }
 

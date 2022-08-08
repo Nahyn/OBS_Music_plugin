@@ -130,18 +130,25 @@
 			musicPlayer.setAttribute("src", newMusicData.link)
 			musicPlayer.play()
 			musicNameElement.innerHTML = newMusicData.title
+			onPlay()
 		}
 
 		const onPlay = () => {
-			document.getElementById("pause_button").classList.add("hidden")
-			document.getElementById("play_button").classList.remove("hidden")
+			const pauseButton = document.getElementById("pause_button")
+			const playButton = document.getElementById("play_button")
+
+			document.body.classList.add("music_playing")
+			document.body.classList.remove("music_paused")
 
 			musicPlayer.play()
 		}
 
 		const onPause = () => {
-			document.getElementById("pause_button").classList.remove("hidden")
-			document.getElementById("play_button").classList.add("hidden")
+			const pauseButton = document.getElementById("pause_button")
+			const playButton = document.getElementById("play_button")
+
+			document.body.classList.add("music_paused")
+			document.body.classList.remove("music_playing")
 
 			musicPlayer.pause()
 		}
@@ -167,20 +174,20 @@
 	</script>
 </head>
 
-<body class="parameters_hidden">
+<body class="parameters_hidden music_playing">
 	<audio id="music_player"></audio>
 	<p id="music_name"></p>
 
 	<div id="control_container">
-		<button id="pause_button" clicked="onPause()">
+		<button id="pause_button" onclick="onPause()">
 			Pause
 		</button>
 
-		<button id="play_button" class="hidden" clicked="onPlay()">
+		<button id="play_button" onclick="onPlay()">
 			Play
 		</button>
 
-		<button id="next_button" playNewMusic="onPlay()">
+		<button id="next_button" onclick="playNewMusic()">
 			Next
 		</button>
 
