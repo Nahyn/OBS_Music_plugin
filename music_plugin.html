@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="./style.css">
+	<script>
+		// ==========================================================================================================================================
+		// == The structure of those data is really important and can be fucked up easily ===========================================================
+		// == Each comma, bracket and quotation mark is important here ==============================================================================
+		// == Follow the exemples present when you first downloaded the file and you should be able to add new musics ===============================
+		// == Follow the exemples present when you first downloaded the file and you should be able to add new musics ===============================
+		// ==========================================================================================================================================
+		// == The most proheminent things that could be a problem are : =============================================================================
+		// == - A title or link is not between quotes ===============================================================================================
+		// == - Every song dataset (except the last one) doesn't have a comma after its closing bracket =============================================
+		// == - The title of a song doesn't have a comma after its closing quote ====================================================================
+		// ==========================================================================================================================================
+		// == This plugin *should* allow you to play Internet links *but* they have to be direct links to music files and not a Youtube link ========
+		// ==========================================================================================================================================
+		const userPlaylist = [
+			{
+				title: "Everen Maxwell - A Day at Sea [NCS Release]",
+				link: "./music/everen-maxwell-a-day-at-sea.mp3"
+			},
+			{
+				title: "Zeneth & Knoir - Beam (ft. Gabriella) [NCS Release] ",
+				link: "./music/zeneth-knoir-beam-ft-gabriella.mp3"
+			}
+		]
+
+
+
+
+
+		let musicNameElement
+		let musicPlayer
+
+		let parameterContainer
+		let trackInputList = []
+		let volumeInput
+		let textColorInput
+		let randomPlaylistInput
+
+		let savedData = localStorage.getItem("OBS_music_plugin")
+		if (savedData == undefined) {
+			savedData = {
+				parameterVisibility: true,
+				volume: 0.20,
+				textColor: "#CCCCCC",
+				randomPlaylist: true
+			}
+		} else {
+			savedData = JSON.parse(savedData)
+		}
+
+		let parameterVisibility, volume, textColor, randomPlaylist
+		let remainingMusicList = []
+
+		const saveData = () => {
+			const tmpData = {
+				parameterVisibility: parameterVisibility,
+				volume: volume,
+				textColor: textColor,
+				randomPlaylist: randomPlaylist
+			}
+
+			localStorage.setItem("OBS_music_plugin", JSON.stringify(tmpData))
+		}
+
+		const initParameters = () => {
+			setParameterVisibility(savedData.parameterVisibility)
+			setVolume(savedData.volume)
+			setTextColor(savedData.textColor)
+			setRandomPlaylist(savedData.randomPlaylist)
+		}
+
+		const setParameterVisibility = (_newVisibility) => {
+			parameterVisibility = _newVisibility
+
+			if (parameterVisibility == true) {
+				document.body.classList.remove("parameters_hidden")
+				document.getElementById("toggle_parameters").innerHTML = "Less settings"
+			} else {
+				document.body.classList.add("parameters_hidden")
+				document.getElementById("toggle_parameters").innerHTML = "More settings"
+			}
+
+			saveData()
+		}
+
+		const setVolume = (_newVolume) => {
+			volume = _newVolume
+			musicPlayer.volume = volume
+
+			document.getElementById("volume_label").innerHTML = `Volume: ${Math.ceil(volume * 100)}%`
+			document.getElementById("volume").value = volume
+
+			saveData()
+		}
+
+		const setTextColor = (_color) => {
+			textColor = _color
+			musicNameElement.setAttribute("style", "color: " + textColor)
+			document.getElementById("color").value = textColor
+
+			saveData()
+		}
+
+		const setRandomPlaylist = (_random) => {
+			randomPlaylist = (_random == true)
+			document.getElementById("random_label").innerHTML = `Random: ${randomPlaylist ? "YES" : "NO"}`
+			document.getElementById("random").checked = randomPlaylist
+
+			saveData()
+		}
+
+		const playNewMusic = () => {
+			if (remainingMusicList.length == 0) {
+				remainingMusicList = ([]).concat(userPlaylist)
+			}
+
+			let newMusicIndex = 0
+
+			if (randomPlaylist) {
+				newMusicIndex = Math.floor(Math.random() * remainingMusicList.length)
+			}
+
+			const newMusicData = remainingMusicList.splice(newMusicIndex, 1)[0]
+
+			musicPlayer.setAttribute("src", newMusicData.link)
+			musicPlayer.play()
+			musicNameElement.innerHTML = newMusicData.title
+		}
+
+		const onPlay = () => {
+			document.getElementById("pause_button").classList.add("hidden")
+			document.getElementById("play_button").classList.remove("hidden")
+
+			musicPlayer.play()
+		}
+
+		const onPause = () => {
+			document.getElementById("pause_button").classList.remove("hidden")
+			document.getElementById("play_button").classList.add("hidden")
+
+			musicPlayer.pause()
+		}
+
+		window.addEventListener("load", () => {
+			parameterContainer = document.getElementById("parameter_container")
+			musicNameElement = document.getElementById("music_name")
+			musicPlayer = document.getElementById("music_player")
+
+
+			musicPlayer.addEventListener("ended", () => {
+				playNewMusic()
+			})
+
+			document.getElementById("toggle_parameters").addEventListener("click", () => {
+				setParameterVisibility(!parameterVisibility)
+			})
+
+			initParameters()
+			playNewMusic()
+		})
+
+	</script>
+</head>
+
+<body class="parameters_hidden">
+	<audio id="music_player"></audio>
+	<p id="music_name"></p>
+
+	<div id="control_container">
+		<button id="pause_button" clicked="onPause()">
+			Pause
+		</button>
+
+		<button id="play_button" class="hidden" clicked="onPlay()">
+			Play
+		</button>
+
+		<button id="next_button" playNewMusic="onPlay()">
+			Next
+		</button>
+
+		<button id="toggle_parameters">
+			More settings
+		</button>
+	</div>
+
+	<div id="parameter_container">
+		<label id="volume_label" for="volume">Volume : XX%</label>
+		<input id="volume" type="range" min="0.0" max="1.0" step="0.05" onInput="setVolume(event.target.value)" />
+
+		<label id="color_label" for="color">Color</label>
+		<input id="color" type="text" onInput="setTextColor(event.target.value)" value="#CCCCCC" />
+
+		<label id="random_label" for="random">Random : NYOS</label>
+		<input style="display: none" id="random" type="checkbox"
+			onInput="setRandomPlaylist(event.target.checked == true)" />
+	</div>
+</body>
+
+</html>
