@@ -8,7 +8,7 @@
 		// == The structure of those data is really important and can be fucked up easily ===========================================================
 		// == Each comma, bracket and quotation mark is important here ==============================================================================
 		// == Follow the exemples present when you first downloaded the file and you should be able to add new musics ===============================
-		// == Follow the exemples present when you first downloaded the file and you should be able to add new musics ===============================
+		// == If no "link" is given, the program will try to grab a .mp3 named like the "title" in the folder music =================================
 		// ==========================================================================================================================================
 		// == The most proheminent things that could be a problem are : =============================================================================
 		// == - A title or link is not between quotes ===============================================================================================
@@ -23,14 +23,11 @@
 				link: "./music/everen-maxwell-a-day-at-sea.mp3"
 			},
 			{
-				title: "Zeneth & Knoir - Beam (ft. Gabriella) [NCS Release] ",
-				link: "./music/zeneth-knoir-beam-ft-gabriella.mp3"
+				// Giving only the title, the code will try to grab the file "./music/Zeneth & Knoir - Beam (ft. Gabriella) [NCS Release].mp3"
+				// Less tidious to add a lot of tracks but the file name is basically what will be displayed
+				title: "Zeneth & Knoir - Beam (ft. Gabriella) [NCS Release]",
 			},
 		]
-
-
-
-
 
 		let musicNameElement
 		let musicPlayer
@@ -127,7 +124,12 @@
 
 			const newMusicData = remainingMusicList.splice(newMusicIndex, 1)[0]
 
-			musicPlayer.setAttribute("src", newMusicData.link)
+			let musicLink = newMusicData.link
+			if (musicLink == undefined) {
+				musicLink = "./music/" + newMusicData.title + ".mp3"
+			}
+
+			musicPlayer.setAttribute("src", musicLink)
 			musicPlayer.play()
 			musicNameElement.innerHTML = newMusicData.title
 			onPlay()
@@ -160,6 +162,10 @@
 
 
 			musicPlayer.addEventListener("ended", () => {
+				playNewMusic()
+			})
+
+			musicPlayer.addEventListener("error", () => {
 				playNewMusic()
 			})
 
