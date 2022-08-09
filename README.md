@@ -1,3 +1,11 @@
+# Before updating this plugin
+
+BE CAREFUL
+
+Since you have to write your music list directly in the HTML file, I recommend to first rename the previous "music_plugin.html" so you won't have to re-do your entire list !!!
+
+My next plan is to actually put the tracklist *outside* of the main file to avoid this kind of stuff
+
 # OBS_Music_plugin
 
 So, to download the thing, just click on the top-right "CODE" button and "Download as Zip"
