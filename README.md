@@ -10,8 +10,6 @@ If there is a problem, don't worry, the tracklist editor makes it way easier and
 
 ---
 
-
-
 # OBS_Music_plugin
 
 In term of security, this plugin can run entirely offline and use Javascript, a language having built-in securities to not access anything outside the folder it's located in
@@ -30,7 +28,7 @@ To download it, just click on the top-right "CODE" button and "Download as Zip",
 
 ![image](https://user-images.githubusercontent.com/13376018/184087409-b38bfc8a-d278-4755-bc49-d42b1e5b9212.png)
 
-There you go ! You should be able to open "music_plugin.html" in your favorite browser and it should work !
+There you go ! Opening "music_plugin.html" in some browser might not work but don't worry, it's gonna work in OBS !
 
 # Adding the plugin in OBS
 
@@ -44,7 +42,12 @@ To add the plugin in OBS, you just "Add a new Source > Browser" and then, you wi
 
 ![image](https://user-images.githubusercontent.com/13376018/183495747-fd839841-289d-450c-b09f-49ed2047c75c.png)
 
-The plugin is done, now you can configure the "inside" of it if you want
+The plugin is done, now you can configure the "inside" of it if you want !
+
+**Important note: ** if you change something about the plugin with OBS opened, those changes might not be visible immediately ! Just refresh the plugin and it should be okay !
+
+![image](https://user-images.githubusercontent.com/13376018/184093033-b9ea8fd6-e3ed-46d0-bbb9-d32c8c2395bc.png)
+
 
 # MORE SETTINGS
 
