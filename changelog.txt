@@ -1,0 +1,7 @@
+v0.2
+- External tracklist editor
+- Simple "add files > download" feature
+
+v0.1
+- Have to edit music_plugin.html to change the music playlist
+- Basic toggleable settings
