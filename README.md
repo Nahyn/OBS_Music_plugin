@@ -1,20 +1,32 @@
-# Before updating this plugin
+### Updating for the tracklist_editor update
 
-BE CAREFUL
+Since I moved the tracklist from the inside of "music_plugin.html" to a dedicated file, you should copy/paste your playlist in a file called "tracklist.json"
 
-Since you have to write your music list directly in the HTML file, I recommend to first rename the previous "music_plugin.html" so you won't have to re-do your entire list !!!
 
-My next plan is to actually put the tracklist *outside* of the main file to avoid this kind of stuff
+
+---
+
+
 
 # OBS_Music_plugin
 
-So, to download the thing, just click on the top-right "CODE" button and "Download as Zip"
+In term of security, this plugin can run entirely offline and use Javascript, a language having built-in securities to not access anything outside the folder it's located in
 
-Once downloaded, unzip it
+To download it, just click on the top-right "CODE" button and "Download as Zip", then unzip it
 
-Put the tracks you want in the "music" folder *and edit the music_plugin.html* to add said tracks to the list (I would recommend to get a code editor like Notepadd++ to do that)
+## Setting up the music
 
-Then you're done ! ... For the basic installation at least
+1. Put the tracks you want in the "music" folder 
+
+2. Open the tracklist_editor.html
+
+3. Add the files to the editor and click "download" to create a "tracklist.json" file
+
+4. Go wherever the file have been downloaded and move it in the same folder as "music_plugin.html"
+
+![image](https://user-images.githubusercontent.com/13376018/184087409-b38bfc8a-d278-4755-bc49-d42b1e5b9212.png)
+
+There you go ! You should be able to open "music_plugin.html" in your favorite browser and it should work !
 
 # Adding the plugin in OBS
 
