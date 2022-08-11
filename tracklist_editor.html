@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="./tracklist_editor.css">
+	</link>
+	<script>
+		let fileInput;
+
+		const updateDownloadContent = (jsonData) => {
+			document.getElementById("download_file").setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(jsonData)))
+		}
+
+		const getFileNames = () => {
+			const fileNames = [];
+
+			if (fileInput) {
+				for (let i = 0; i < fileInput.files.length; i++) {
+					const tmpFile = fileInput.files[i]
+					const tmpFileName = tmpFile.name.replace(".mp3", "")
+
+					fileNames.push({
+						"title": tmpFileName
+					})
+				}
+			}
+
+			return fileNames
+		}
+
+		window.addEventListener("load", () => {
+			fileInput = document.getElementById("file_input");
+
+			fileInput.addEventListener("change", (event) => {
+				updateDownloadContent(getFileNames())
+			})
+		})
+	</script>
+</head>
+
+<body>
+	<label>
+		Add files
+		<input style="display: none" id="file_input" type="file" multiple="true" />
+	</label>
+	<div id="right_column">
+		<div id="track_container">
+
+		</div>
+
+		<a class="download_button" id="download_file" href="#" download="tracklist.json">DOWNLOAD</a>
+	</div>
+</body>
+
+</html>
