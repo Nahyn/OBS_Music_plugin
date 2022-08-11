@@ -2,7 +2,11 @@
 
 Since I moved the tracklist from the inside of "music_plugin.html" to a dedicated file, you should copy/paste your playlist in a file called "tracklist.json"
 
+What you copy should look like this :
 
+![image](https://user-images.githubusercontent.com/13376018/184088480-0678f279-ee28-4cd9-b293-9f926677434d.png)
+
+If there is a problem, you might have to start from the beginning but don't worry, the tracklist editor make it way easier and faster now
 
 ---
 
