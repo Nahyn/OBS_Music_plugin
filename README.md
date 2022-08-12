@@ -1,20 +1,34 @@
-# Before updating this plugin
+### Updating for the tracklist_editor update
 
-BE CAREFUL
+Since I moved the tracklist from the inside of "music_plugin.html" to a dedicated file, you should copy/paste your playlist in a file called "tracklist.json"
 
-Since you have to write your music list directly in the HTML file, I recommend to first rename the previous "music_plugin.html" so you won't have to re-do your entire list !!!
+What you copy should look like this :
 
-My next plan is to actually put the tracklist *outside* of the main file to avoid this kind of stuff
+![image](https://user-images.githubusercontent.com/13376018/184088480-0678f279-ee28-4cd9-b293-9f926677434d.png)
+
+If there is a problem, don't worry, the tracklist editor makes it way easier and faster to set up the playlist now
+
+---
 
 # OBS_Music_plugin
 
-So, to download the thing, just click on the top-right "CODE" button and "Download as Zip"
+In term of security, this plugin can run entirely offline and use Javascript, a language having built-in securities to not access anything outside the folder it's located in
 
-Once downloaded, unzip it
+To download it, just click on the top-right "CODE" button and "Download as Zip", then unzip it
 
-Put the tracks you want in the "music" folder *and edit the music_plugin.html* to add said tracks to the list (I would recommend to get a code editor like Notepadd++ to do that)
+## Setting up the music
 
-Then you're done ! ... For the basic installation at least
+1. Put the tracks you want in the "music" folder 
+
+2. Open the tracklist_editor.html
+
+3. Add the files to the editor and click "download" to create a "tracklist.json" file
+
+4. Go wherever the file have been downloaded and move it in the same folder as "music_plugin.html"
+
+![image](https://user-images.githubusercontent.com/13376018/184087409-b38bfc8a-d278-4755-bc49-d42b1e5b9212.png)
+
+There you go ! Opening "music_plugin.html" in some browser might not work but don't worry, it's gonna work in OBS !
 
 # Adding the plugin in OBS
 
@@ -28,7 +42,12 @@ To add the plugin in OBS, you just "Add a new Source > Browser" and then, you wi
 
 ![image](https://user-images.githubusercontent.com/13376018/183495747-fd839841-289d-450c-b09f-49ed2047c75c.png)
 
-The plugin is done, now you can configure the "inside" of it if you want
+The plugin is done, now you can configure the "inside" of it if you want !
+
+**Important note: ** if you change something about the plugin with OBS opened, those changes might not be visible immediately ! Just refresh the plugin and it should be okay !
+
+![image](https://user-images.githubusercontent.com/13376018/184093033-b9ea8fd6-e3ed-46d0-bbb9-d32c8c2395bc.png)
+
 
 # MORE SETTINGS
 
