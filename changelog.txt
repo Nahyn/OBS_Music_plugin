@@ -1,3 +1,7 @@
+v0.3
+- Tracklist editor style
+- Possibility to edit the list before download
+
 v0.2
 - External tracklist editor
 - Simple "add files > download" feature

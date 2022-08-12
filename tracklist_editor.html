@@ -6,34 +6,110 @@
 	</link>
 	<script>
 		let fileInput;
+		let tracklist = []
 
-		const updateDownloadContent = (jsonData) => {
-			document.getElementById("download_file").setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(jsonData)))
+		/*
+		no CORS UwU 
+		const xhttp = new XMLHttpRequest();
+		xhttp.onload = function () {
+			tracklist = JSON.parse(this.responseText)
+
+			updateTracklistDisplay()
+			updateDownloadContent()
+		}
+		xhttp.open("GET", "tracklist.json", true);
+		xhttp.send();
+		*/
+
+		const createTrack = (_name, _link) => {
+			if (_link == undefined) {
+				_link = './music/' + _name + '.mp3'
+			}
+
+			return {
+				title: _name,
+				link: _link
+			}
 		}
 
-		const getFileNames = () => {
-			const fileNames = [];
+		const createTrackElement = (_track) => {
+			const trackElement = document.createElement("div")
+			trackElement.classList.add("track_element")
 
+			const inputContainer = document.createElement("div")
+			trackElement.append(inputContainer)
+
+			const titleLabel = document.createElement("label")
+			titleLabel.innerHTML = "Title"
+			const titleInput = document.createElement("input")
+			titleInput.value = _track.title
+			titleLabel.append(titleInput)
+			inputContainer.append(titleLabel)
+
+			const linkLabel = document.createElement("label")
+			linkLabel.innerHTML = "Link"
+			const linkInput = document.createElement("input")
+			linkInput.value = _track.link
+			linkLabel.append(linkInput)
+			inputContainer.append(linkLabel)
+
+			const removeButton = document.createElement("span")
+			removeButton.innerHTML = "X"
+			trackElement.append(removeButton)
+
+			titleInput.addEventListener("input", (_event) => {
+				_track.title = _event.target.value
+
+				updateDownloadContent()
+			})
+
+			linkInput.addEventListener("input", (_event) => {
+				_track.link = _event.target.value
+
+				updateDownloadContent()
+			})
+
+			removeButton.addEventListener("click", (_event) => {
+				tracklist = tracklist.filter(_existingTrack => _existingTrack != _track)
+
+				updateTracklistDisplay()
+				updateDownloadContent()
+			})
+
+
+			return trackElement
+		}
+
+		const updateTracklistDisplay = () => {
+			const container = document.getElementById("track_container")
+			container.innerHTML = ""
+
+			tracklist.forEach(_track => {
+				container.append(createTrackElement(_track))
+			})
+		}
+
+		const updateDownloadContent = () => {
+			document.getElementById("download_file").setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tracklist)))
+		}
+
+		const onFileInputChanged = () => {
 			if (fileInput) {
 				for (let i = 0; i < fileInput.files.length; i++) {
 					const tmpFile = fileInput.files[i]
 					const tmpFileName = tmpFile.name.replace(".mp3", "")
 
-					fileNames.push({
-						"title": tmpFileName
-					})
+					tracklist.push(createTrack(tmpFileName))
 				}
 			}
 
-			return fileNames
+			updateTracklistDisplay()
+			updateDownloadContent()
 		}
 
 		window.addEventListener("load", () => {
 			fileInput = document.getElementById("file_input");
-
-			fileInput.addEventListener("change", (event) => {
-				updateDownloadContent(getFileNames())
-			})
+			fileInput.addEventListener("change", onFileInputChanged)
 		})
 	</script>
 </head>
@@ -41,7 +117,7 @@
 <body>
 	<label>
 		Add files
-		<input style="display: none" id="file_input" type="file" multiple="true" />
+		<input id="file_input" type="file" multiple="true" />
 	</label>
 	<div id="right_column">
 		<div id="track_container">
