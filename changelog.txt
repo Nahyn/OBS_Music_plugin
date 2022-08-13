@@ -1,3 +1,10 @@
+v0.4
+- Upgrading the music_plugin interface
+- Possibility to change the volume by 1% instead of 5%
+- Long titles are just cut instead of continuing on a new line
+- Possibility to customise the font of the text for the music title
+- Possibility to customise the size of the text for the music title
+
 v0.3
 - Tracklist editor style
 - Possibility to edit the list before download

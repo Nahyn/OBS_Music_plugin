@@ -1,0 +1,108 @@
+:root {
+	--interactable-background-disabled: rgba(0, 0, 0, 0.1);
+	--interactable-font: rgb(187, 255, 244);
+	--interactable-background: rgb(73, 128, 60);
+	--interactable-background-hover: rgb(53, 90, 45);
+	--font-color: #333333;
+}
+
+html,
+body {
+	height: 100%;
+	box-sizing: border-box;
+	margin: 0;
+}
+
+body {
+	display: flex;
+	padding: 0.5em;
+	flex-direction: column;
+}
+
+body:not(.parameters_hidden) {
+	color: white;
+	background-color: rgb(50, 50, 50);
+}
+
+body:not(:hover) #audio_container #control_container,
+body:not(:hover) #toggle_parameters {
+	display: none
+}
+
+body:not(.parameters_hidden) #control_container {
+	display: block
+}
+
+body button {
+	padding: 0.5em;
+	border: none;
+	border-radius: 0.5em;
+	background-color: var(--interactable-background);
+	color: var(--interactable-font);
+}
+
+body button:hover,
+body button:focus {
+	background-color: var(--interactable-background-hover)
+}
+
+.hidden,
+.parameters_hidden #parameter_container,
+.music_playing #play_button,
+.music_paused #pause_button {
+	display: none
+}
+
+#audio_container {
+	display: flex;
+	flex: 0 0 auto;
+	overflow: hidden;
+}
+
+#audio_container audio {
+	flex: 0 0 0;
+}
+
+#audio_container #music_name_container {
+	flex: 1 1 0;
+	font-weight: bold;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding-right: 0.5em;
+}
+
+#audio_container #music_name {}
+
+#audio_container #control_container {
+	flex: 0 0 auto;
+	display: flex;
+	padding: 0.25em;
+}
+
+#audio_container #control_container button {
+	flex: 0 0 2em;
+	margin: 0.5em 0 0.5em 0.5em;
+}
+
+#parameter_container {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 0;
+	overflow: auto;
+}
+
+#parameter_container>label {
+	display: flex;
+	height: 1.5em;
+	align-items: center;
+	padding: 0.5em 0;
+}
+
+#parameter_container>label>* {
+	flex: 1 1 0;
+}
+
+#parameter_container>label:hover {
+	background-color: var(--interactable-background-disabled);
+}

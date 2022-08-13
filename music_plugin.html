@@ -2,58 +2,40 @@
 <html>
 
 <head>
-	<link rel="stylesheet" href="./style.css">
+	<link rel="stylesheet" href="./music_plugin.css">
+
+	<script src="./js/MusicSettings.js"></script>
+
 	<script>
-		let userPlaylist = []
+		let userPlaylist = [{ "title": "everen-maxwell-a-day-at-sea", "link": "./music/everen-maxwell-a-day-at-sea.mp3" }, { "title": "Zeneth & Knoir - Beam (ft. Gabriella) [NCS Release]", "link": "./music/Zeneth & Knoir - Beam (ft. Gabriella) [NCS Release].mp3" }]
+		let remainingMusicList = []
 
-		const xhttp = new XMLHttpRequest();
-		xhttp.onload = function () {
-			userPlaylist = JSON.parse(this.responseText)
-			playNewMusic()
+		const loadTracklist = () => {
+			const xhttp = new XMLHttpRequest();
+			xhttp.onload = function () {
+				userPlaylist = JSON.parse(this.responseText)
+				playNewMusic()
+			}
+			xhttp.open("GET", "tracklist.json", true);
+			xhttp.send();
 		}
-		xhttp.open("GET", "tracklist.json", true);
-		xhttp.send();
 
+		let musicNameContainer
 		let musicNameElement
 		let musicPlayer
 
-		let parameterContainer
-		let trackInputList = []
-		let volumeInput
-		let textColorInput
-		let randomPlaylistInput
+		let randomPlaylist
 
-		let savedData = localStorage.getItem("OBS_music_plugin")
-		if (savedData == undefined) {
-			savedData = {
-				parameterVisibility: true,
-				volume: 0.20,
-				textColor: "#CCCCCC",
-				randomPlaylist: true
-			}
-		} else {
-			savedData = JSON.parse(savedData)
-		}
+		let parameterVisibility = false
 
-		let parameterVisibility, volume, textColor, randomPlaylist
-		let remainingMusicList = []
-
-		const saveData = () => {
-			const tmpData = {
-				parameterVisibility: parameterVisibility,
-				volume: volume,
-				textColor: textColor,
-				randomPlaylist: randomPlaylist
-			}
-
-			localStorage.setItem("OBS_music_plugin", JSON.stringify(tmpData))
-		}
-
-		const initParameters = () => {
-			setParameterVisibility(savedData.parameterVisibility)
-			setVolume(savedData.volume)
-			setTextColor(savedData.textColor)
-			setRandomPlaylist(savedData.randomPlaylist)
+		const updateSettings = (_newSettings) => {
+			setVolume(_newSettings.volume)
+			setTextStyle({
+				color: _newSettings.textColor,
+				font: _newSettings.textFont,
+				size: _newSettings.textSize
+			})
+			setRandomPlaylist(_newSettings.randomPlaylist)
 		}
 
 		const setParameterVisibility = (_newVisibility) => {
@@ -66,34 +48,29 @@
 				document.body.classList.add("parameters_hidden")
 				document.getElementById("toggle_parameters").innerHTML = "More settings"
 			}
-
-			saveData()
 		}
 
 		const setVolume = (_newVolume) => {
-			volume = _newVolume
-			musicPlayer.volume = volume
-
-			document.getElementById("volume_label").innerHTML = `Volume: ${Math.ceil(volume * 100)}%`
-			document.getElementById("volume").value = volume
-
-			saveData()
+			musicPlayer.volume = _newVolume
 		}
 
-		const setTextColor = (_color) => {
-			textColor = _color
-			musicNameElement.setAttribute("style", "color: " + textColor)
-			document.getElementById("color").value = textColor
+		const setTextStyle = (_options) => {
+			const styleLines = [];
+			styleLines.push("color: " + _options.color)
 
-			saveData()
+			if (_options.font) {
+				styleLines.push("font-family: " + _options.font)
+			}
+
+			if (_options.size) {
+				styleLines.push("font-size: " + _options.size + "px")
+			}
+
+			musicNameContainer.setAttribute("style", styleLines.join(";"))
 		}
 
 		const setRandomPlaylist = (_random) => {
 			randomPlaylist = (_random == true)
-			document.getElementById("random_label").innerHTML = `Random: ${randomPlaylist ? "YES" : "NO"}`
-			document.getElementById("random").checked = randomPlaylist
-
-			saveData()
 		}
 
 		const playNewMusic = () => {
@@ -143,10 +120,9 @@
 		}
 
 		window.addEventListener("load", () => {
-			parameterContainer = document.getElementById("parameter_container")
+			musicNameContainer = document.getElementById("music_name_container")
 			musicNameElement = document.getElementById("music_name")
 			musicPlayer = document.getElementById("music_player")
-
 
 			musicPlayer.addEventListener("ended", () => {
 				playNewMusic()
@@ -160,40 +136,36 @@
 				setParameterVisibility(!parameterVisibility)
 			})
 
-			initParameters()
-			playNewMusic()
+
+			initMusicSetting(document.getElementById("parameter_container"), updateSettings)
+			loadTracklist()
 		})
 
 	</script>
 </head>
 
 <body class="parameters_hidden music_playing">
-	<audio id="music_player"></audio>
-	<p id="music_name"></p>
+	<div id="audio_container">
+		<audio id="music_player"></audio>
+		<p id="music_name_container">
+			<span id="music_name"></span>
+		</p>
 
-	<div id="control_container">
-		<button id="pause_button" onclick="onPause()">⏸</button>
+		<div id="control_container">
+			<button id="pause_button" onclick="onPause()">⏸</button>
 
-		<button id="play_button" onclick="onPlay()">⏵</button>
+			<button id="play_button" onclick="onPlay()">⏵</button>
 
-		<button id="next_button" onclick="playNewMusic()">⏭</button>
-
-		<button id="toggle_parameters">
-			More settings
-		</button>
+			<button id="next_button" onclick="playNewMusic()">⏭</button>
+		</div>
 	</div>
 
+	<button id="toggle_parameters">
+		More settings
+	</button>
+
 	<div id="parameter_container">
-		<div id="debug"></div>
-		<label id="volume_label" for="volume">Volume : XX%</label>
-		<input id="volume" type="range" min="0.0" max="1.0" step="0.05" onInput="setVolume(event.target.value)" />
 
-		<label id="color_label" for="color">Color</label>
-		<input id="color" type="text" onInput="setTextColor(event.target.value)" value="#CCCCCC" />
-
-		<label id="random_label" for="random">Random : NYOS</label>
-		<input style="display: none" id="random" type="checkbox"
-			onInput="setRandomPlaylist(event.target.checked == true)" />
 	</div>
 </body>
 
