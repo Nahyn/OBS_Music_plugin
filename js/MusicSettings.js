@@ -65,7 +65,7 @@ const initMusicSetting = (_container, _onSettingChanged) => {
 
 	// ============================================================================================
 
-	const textColorSetting = createSetting("textColor", "Text color", "color")
+	const textColorSetting = createSetting("textColor", "Text color", "text")
 
 	textColorSetting.input.value = savedSettings.textColor
 

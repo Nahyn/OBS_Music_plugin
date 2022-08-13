@@ -1,3 +1,7 @@
+v0.4.1:
+- Change the textColorInput back to a "text" (OBS refuse a type="color")
+- Change the button icons to text (encoding problems with OBS)
+
 v0.4
 - Upgrading the music_plugin interface
 - Possibility to change the volume by 1% instead of 5%

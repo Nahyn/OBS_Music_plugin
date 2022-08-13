@@ -64,7 +64,8 @@ body button:focus {
 }
 
 #audio_container #music_name_container {
-	flex: 1 1 0;
+	margin: 0;
+	flex: 1 1 1em;
 	font-weight: bold;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -81,7 +82,8 @@ body button:focus {
 }
 
 #audio_container #control_container button {
-	flex: 0 0 2em;
+	flex: 0 0 5em;
+	min-width: 5em;
 	margin: 0.5em 0 0.5em 0.5em;
 }
 
